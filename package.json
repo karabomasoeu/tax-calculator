@@ -1,1 +1,11 @@
-
+{
+  "name": "tax-calculator",
+  "version": "1.0.0",
+  "description": "Tax Calculator - Cloud Native Project",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "devDependencies": {
+    "jasmine": "^5.1.0"
+  }
+}
