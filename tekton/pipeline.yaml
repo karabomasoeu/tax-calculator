@@ -1,1 +1,77 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: tax-calculator-pipeline
+spec:
+  description: >
+    CI/CD pipeline for the Tax Calculator.
+    Installs dependencies, runs Jasmine unit tests, then builds
+    and pushes the Docker image - only if all tests pass.
 
+  params:
+    - name: git-url
+      description: Source repository URL
+      type: string
+    - name: git-revision
+      description: Branch, tag, or commit SHA to build
+      type: string
+      default: main
+    - name: image
+      description: Full image reference (registry/namespace/name:tag)
+      type: string
+
+  workspaces:
+    - name: shared-workspace
+      description: Shared PVC passed through all tasks
+
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: $(params.git-revision)
+        - name: deleteExisting
+          value: "true"
+
+    - name: npminstall
+      taskRef:
+        name: npm
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: ARGS
+          value: ["install"]
+
+    - name: tests
+      taskRef:
+        name: jasmine
+      runAfter:
+        - npminstall
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: build
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      runAfter:
+        - tests
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: IMAGE
+          value: $(params.image)
+        - name: FORMAT
+          value: docker
