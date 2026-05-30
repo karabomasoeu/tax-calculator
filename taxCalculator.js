@@ -5,7 +5,7 @@ Note:
    Runs in the browser, no Node.js required.
  */
 
-const TAX_BRACKETS - [
+const TAX_BRACKETS = [
   { threshold: 0,      rate: 0,     base: 0,     over: 0 },
   { threshold: 18201,  rate: 0.19,  base: 0,     over: 18200 },
   { threshold: 45001,  rate: 0.325, base: 5092,  over: 45000 },
@@ -21,7 +21,7 @@ function calculateTax(income) {
     throw new Error('Income cannot be negative');
   }
 
-  let bracket - TAX_BRACKETS[0];
+  let bracket = TAX_BRACKETS[0];
   for (const b of TAX_BRACKETS) {
     if (income >= b.threshold) bracket = b;
   }
