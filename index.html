@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tax Calculator</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card">
+    <h1>Tax Calculator</h1>
+    <p class="subtitle">Australian income tax estimate (FY 2024–25)</p>
 
+    <label for="income">Annual gross income</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input
+        type="number"
+        id="income"
+        placeholder="e.g. 85000"
+        min="0"
+        step="1000"
+        aria-label="Annual gross income in dollars"
+      />
+    </div>
+
+    <div class="error-msg" id="error" role="alert" aria-live="polite"></div>
+
+    <button id="calcBtn" onclick="calculate()">Calculate tax</button>
+
+    <div class="results" id="results" aria-live="polite">
+      <div class="divider"></div>
+      <div class="result-grid">
+        <div class="result-item full">
+          <div class="result-label">Tax payable</div>
+          <div class="result-value danger" id="res-tax">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Net income</div>
+          <div class="result-value success" id="res-net">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Effective tax rate</div>
+          <div class="result-value" id="res-eff">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Marginal tax rate</div>
+          <div class="result-value highlight" id="res-mar">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="taxCalculator.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
