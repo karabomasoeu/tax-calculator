@@ -1,5 +1,5 @@
 /**
-Note: Handles UI interaction for the Tax Calculator app.
+Note: Handles UI interaction for Tax Calculator app.
       Depends on taxCalculator.js being loaded first.
  */
 
